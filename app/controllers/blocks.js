@@ -144,7 +144,8 @@ exports.list = function(req, res) {
               hash: b.hash,
               time: b.ts || info.time,
               txlength: info.tx.length,
-              poolInfo: info.poolInfo
+              poolInfo: info.poolInfo,
+              difficulty: info.difficulty
             });
           });
         }, function(err, allblocks) {
