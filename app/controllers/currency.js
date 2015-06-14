@@ -5,7 +5,7 @@ var config = require('../../config/config');
 // Set the initial vars
 var timestamp = +new Date(),
     delay = config.currencyRefresh * 60000,
-    btceusdRate = 0;
+    nlgbtcRate = 0;
 
 exports.index = function(req, res) {
 
@@ -40,21 +40,21 @@ exports.index = function(req, res) {
 
   // Init
   var currentTime = +new Date();
-  if (btceusdRate === 0 || currentTime >= (timestamp + delay)) {
+  if (nlgbtcRate === 0 || currentTime >= (timestamp + delay)) {
     timestamp = currentTime;
 
-    _request('https://btc-e.com/api/2/ltc_usd/ticker/', function(err, data) {
-      if (!err) btceusdRate = parseFloat(JSON.parse(data).ticker.last).toFixed(3);
+    _request('https://koopgulden.nl/api/ticker/', function(err, data) {
+      if (!err) nlgbtcRate = parseFloat(JSON.parse(data).NLG.value).toFixed(8);
 
       res.jsonp({
         status: 200,
-        data: { btceusd: btceusdRate }
+        data: { nlgbtc: nlgbtcRate }
       });
     });
   } else {
     res.jsonp({
       status: 200,
-      data: { btceusd: btceusdRate }
+      data: { nlgbtc: nlgbtcRate }
     });
   }
 };
