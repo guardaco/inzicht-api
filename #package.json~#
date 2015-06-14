@@ -1,6 +1,6 @@
 {
-  "name": "Litesight-bitcore-api",
-  "description": "An open-source Guldencoin blockchain API. The Litesight API provides you with a convenient, powerful and simple way to query and broadcast data on the Guldencoin network and build your own services with it.",
+  "name": "Inzicht-bitcore-api",
+  "description": "An open-source Guldencoin blockchain API. The Inzicht API provides you with a convenient, powerful and simple way to query and broadcast data on the Guldencoin network and build your own services with it.",
   "version": "0.2.11",
   "author": {
     "name": "strataghyst",
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/strataghyst/Inzicht-api",
   "license": "MIT",
   "keywords": [
-    "litesight",
+    "inzicht",
     "guldencoin",
     "blockchain",
     "guldencoin api",
