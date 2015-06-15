@@ -1,6 +1,8 @@
-[ {
+[ 
+
+	{
       "poolName":"Clevermining",
-      "url":"www.clevermining.com",
+      "url":"http://www.clevermining.com",
       "searchStrings":[
          "CMus",
           "CMeu"
@@ -8,42 +10,42 @@
    },
    {
       "poolName":"Guldenhash",
-      "url":"http://pool.guldenhash.com:8000",
+      "url":"http://pool.guldenhash.com",
       "searchStrings":[
          "Guldenhash"
       ]
    },
    {
       "poolName":"Yaamp",
-      "url":"www.yaamp.com",
+      "url":"http://www.yaamp.com",
       "searchStrings":[
          "yaamp.com"
       ]
    },
    {
       "poolName":"Ipominer",
-      "url":"www.ipominer.com",
+      "url":"http://www.ipominer.com",
       "searchStrings":[
          "stratumPool"
       ]
    },
    {
       "poolName":"CoinMine.PW",
-      "url":"www.coinmine.pw",
+      "url":"http://www.coinmine.pw",
       "searchStrings":[
          "CoinMinePW"
       ]
    },
    {
       "poolName":"Neogulden",
-      "url":"www.neogulden.com:8000",
+      "url":"http://www.neogulden.com",
       "searchStrings":[
          "Neogulden"
       ]
    },
 	{
       "poolName":"hardcoreminers",
-      "url":"www.hardcoreminers.com",
+      "url":"http://nlg.hardcoreminers.com/",
       "searchStrings":[
          "GNDA5MZWcm4AjLtNuEmYpgH8qsxo4vrnY8"
       ]
@@ -69,6 +71,13 @@
          "Gazo1qWgAxtkRfapMjv6GQWJskeWTPWGkd"
       ]
    },
+   	{
+      "poolName":"xpool.ca",
+      "url":"https://www.xpool.ca/",
+      "searchStrings":[
+         "GWKLfUQT4V8rKXVrPxSG3KxJNoTgYx511D"
+      ]
+   },
    {
       "poolName":"DEGULDENMIJN",
       "url":"http://deguldenmijn.eu/",
@@ -77,5 +86,4 @@
       ]
    }
 ]
-
 
