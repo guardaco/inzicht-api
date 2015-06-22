@@ -71,11 +71,19 @@
          "Gazo1qWgAxtkRfapMjv6GQWJskeWTPWGkd"
       ]
    },
-   	{
+   {
       "poolName":"xpool.ca",
       "url":"https://www.xpool.ca/",
       "searchStrings":[
          "GWKLfUQT4V8rKXVrPxSG3KxJNoTgYx511D"
+      ]
+   },
+
+   	{
+      "poolName":"hash-to-coins.com",
+      "url":"https://hash-to-coins.com/",
+      "searchStrings":[
+         "GaC1mBCzC8kHSHkZK3QdKTfJxWRMSNCP2X"
       ]
    },
    {

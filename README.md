@@ -1,23 +1,23 @@
-# *Litesight API*
+# *inzicht API*
 
-*Litesight API* is an open-source Guldencoin blockchain REST
-and websocket API. Litesight API runs in NodeJS and uses LevelDB for storage. 
+*inzicht API* is an open-source Guldencoin blockchain REST
+and websocket API. inzicht API runs in NodeJS and uses LevelDB for storage. 
 
 This is a backend-only service. If you're looking for the web frontend application,
-take a look at https://github.com/strataghyst/Litesight.
+take a look at https://github.com/strataghyst/inzicht.
 
-*Litesight API* allows to develop Guldencoin-related applications (such as wallets) that 
+*inzicht API* allows to develop Guldencoin-related applications (such as wallets) that 
 require certain information from the blockchain that guldencoind does not provide.
 
-A blockchain explorer front-end has been developed on top of *Litesight API*. It can
-be downloaded at [Github Litesight Repository](https://github.com/strataghyst/Litesight).
+A blockchain explorer front-end has been developed on top of *inzicht API*. It can
+be downloaded at [Github inzicht Repository](https://github.com/strataghyst/inzicht).
 
 
 ## Prerequisites
 
 * **guldencoind** - Download and Install [guldencoin](https://github.com/guldencoin-project/guldencoin)
 
-*Litesight API* needs a *trusted* guldencoind node to run. *Litesight API* will connect to the node
+*inzicht API* needs a *trusted* guldencoind node to run. *inzicht API* will connect to the node
 through the RPC API, guldencoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
 
 Configure guldencoind to listen to RPC calls and set `txindex` to true.
@@ -25,7 +25,7 @@ The easiest way to do this is by copying `./etc/guldencoind/guldencoin.conf` to 
 guldencoin data directory (usually `~/.guldencoin` on Linux, `%appdata%\Guldencoin\` on Windows,
 or `~/Library/Application Support/Guldencoin` on Mac OS X).
 
-guldencoind must be running and must have finished downloading the blockchain **before** running *Litesight API*.guldencoin
+guldencoind must be running and must have finished downloading the blockchain **before** running *inzicht API*.guldencoin
 
 
 * **Node.js v0.10.x** - Download and Install [Node.js](http://www.nodejs.org/download/).
@@ -35,9 +35,9 @@ guldencoind must be running and must have finished downloading the blockchain **
 ## Quick Install
   Check the Prerequisites section above before installing.
 
-  To install Litesight API, clone the main repository:
+  To install inzicht API, clone the main repository:
 
-    $ git clone https://github.com/strataghyst/Litesight-api && cd Litesight-api
+    $ git clone https://github.com/strataghyst/inzicht-api && cd inzicht-api
 
   Install dependencies:
 
@@ -45,7 +45,7 @@ guldencoind must be running and must have finished downloading the blockchain **
 
   Run the main application:
 
-    $ node Litesight.js
+    $ node insight.js
 
   Then open a browser and go to:
 
@@ -69,8 +69,8 @@ BITCOIND_USER         # RPC username
 BITCOIND_PASS         # RPC password
 BITCOIND_DATADIR      # guldencoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
-INSIGHT_PORT          # Litesight api port
-INSIGHT_DB            # Path where to store Litesight's internal DB. (defaults to $HOME/.guldencoin-insight)
+INSIGHT_PORT          # inzicht api port
+INSIGHT_DB            # Path where to store inzicht's internal DB. (defaults to $HOME/.guldencoin-insight)
 INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information   
 INSIGHT_IGNORE_CACHE  # True to ignore cache of spents in transaction, with more than INSIGHT_SAFE_CONFIRMATIONS confirmations. This is useful for tracking double spents for old transactions.
 ENABLE_MAILBOX # if "true" will enable mailbox plugin
@@ -86,13 +86,13 @@ ENABLE_HTTPS # if "true" it will server using SSL/HTTPS
 Make sure that guldencoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
 
 In case the network is changed (testnet to livenet or vice versa) levelDB database needs to be deleted. This can be performed running:
-```util/sync.js -D``` and waiting for *Litesight* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
+```util/sync.js -D``` and waiting for *inzicht* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
 
 ## Synchronization
 
-The initial synchronization process scans the blockchain from the paired guldencoind server to update addresses and balances. *Litesight-api* needs exactly one trusted guldencoind node to run. This node must have finished downloading the blockchain before running *Litesight-api*.
+The initial synchronization process scans the blockchain from the paired guldencoind server to update addresses and balances. *inzicht-api* needs exactly one trusted guldencoind node to run. This node must have finished downloading the blockchain before running *inzicht-api*.
 
-While *Litesight* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
+While *inzicht* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
 
 The blockchain can be read from guldencoind's raw `.dat` files or RPC interface. 
 Reading the information from the `.dat` files is much faster so it's the
@@ -102,13 +102,13 @@ non-standard location is used, it needs to be defined (see the Configuration sec
 As of June 2014, using `.dat` files the sync process takes 9 hrs.
 for livenet and 30 mins. for testnet.
 
-While synchronizing the blockchain, *Litesight-api* listens for new blocks and
-transactions relayed by the guldencoind node. Those are also stored on *Litesight-api*'s database.
-In case *Litesight-api* is shutdown for a period of time, restarting it will trigger
+While synchronizing the blockchain, *inzicht-api* listens for new blocks and
+transactions relayed by the guldencoind node. Those are also stored on *inzicht-api*'s database.
+In case *inzicht-api* is shutdown for a period of time, restarting it will trigger
 a partial (historic) synchronization of the blockchain. Depending on the size of
 that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
 
-If guldencoind is shutdown, *Litesight-api* needs to be stopped and restarted
+If guldencoind is shutdown, *inzicht-api* needs to be stopped and restarted
 once guldencoind is restarted.
 
 ### Syncing old blockchain data manually
@@ -120,24 +120,24 @@ once guldencoind is restarted.
   Check util/sync.js --help for options, particulary -D to erase the current DB.
 
   *NOTE*: there is no need to run this manually since the historic synchronization
-  is built in into the web application. Running *Litesight-api* normally will trigger
+  is built in into the web application. Running *inzicht-api* normally will trigger
   the historic sync automatically.
 
 
 ### DB storage requirement
 
-To store the blockchain and address related information, *Litesight-api* uses LevelDB.
+To store the blockchain and address related information, *inzicht-api* uses LevelDB.
 Two DBs are created: txs and blocks. By default these are stored on
 
   ``~/.guldencoin-insight/``
 
-Please note that some older versions of Litesight-API store that on `<Litesight's root>/db`.
+Please note that some older versions of inzicht-API store that on `<inzicht's root>/db`.
 
 This can be changed at config/config.js. As of June 2014, storing the livenet blockchain takes ~35GB of disk space (2GB for the testnet).
 
 ## Development
 
-To run Litesight locally for development with grunt:
+To run inzicht locally for development with grunt:
 
 ```$ NODE_ENV=development grunt```
 
@@ -146,7 +146,7 @@ To run the tests
 ```$ grunt test```
 
 
-Contributions and suggestions are welcome at [Litesight-api github repository](https://github.com/strataghyst/Litesight-api).
+Contributions and suggestions are welcome at [inzicht-api github repository](https://github.com/strataghyst/inzicht-api).
 
 ## Caching schema
 
@@ -164,7 +164,7 @@ to ignore the cache in a particular API request.
 
 ## API
 
-By default, Litesight provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
+By default, inzicht provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
 
 The end-points are:
 
@@ -304,7 +304,7 @@ Where "xxx" can be:
 ## Web Socket API
 The web socket API is served using [socket.io](http://socket.io).
 
-The following are the events published by Litesight:
+The following are the events published by inzicht:
 
 'tx': new transaction received from network. This event is published in the 'inv' room. Data will be a app/models/Transaction object.
 Sample output:
@@ -347,18 +347,18 @@ Sample output:
 
 ### Example Usage
 
-The following html page connects to the socket.io Litesight API and listens for new transactions.
+The following html page connects to the socket.io inzicht API and listens for new transactions.
 
 html
 ```
 <html>
 <body>
-  <script src="http://<Litesight-server>:<port>/socket.io/socket.io.js"></script>
+  <script src="http://<inzicht-server>:<port>/socket.io/socket.io.js"></script>
   <script>
     eventToListenTo = 'tx'
     room = 'inv'
 
-    var socket = io("http://<Litesight-server>:<port>/");
+    var socket = io("http://<inzicht-server>:<port>/");
     socket.on('connect', function() {
       // Join the room.
       socket.emit('subscribe', room);
