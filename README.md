@@ -1,13 +1,13 @@
 # *inzicht API*
 
-*inzicht API* is an open-source Guldencoin blockchain REST
+*inzicht API* is an open-source Gulden blockchain REST
 and websocket API. inzicht API runs in NodeJS and uses LevelDB for storage. 
 
 This is a backend-only service. If you're looking for the web frontend application,
 take a look at https://github.com/strataghyst/inzicht.
 
-*inzicht API* allows to develop Guldencoin-related applications (such as wallets) that 
-require certain information from the blockchain that guldencoind does not provide.
+*inzicht API* allows to develop Gulden-related applications (such as wallets) that 
+require certain information from the blockchain that GuldenD does not provide.
 
 A blockchain explorer front-end has been developed on top of *inzicht API*. It can
 be downloaded at [Github inzicht Repository](https://github.com/strataghyst/inzicht).
@@ -15,17 +15,17 @@ be downloaded at [Github inzicht Repository](https://github.com/strataghyst/inzi
 
 ## Prerequisites
 
-* **guldencoind** - Download and Install [guldencoin](https://github.com/guldencoin-project/guldencoin)
+* **GuldenD** - Download and Install [gulden](https://github.com/Gulden/gulden-official)
 
-*inzicht API* needs a *trusted* guldencoind node to run. *inzicht API* will connect to the node
-through the RPC API, guldencoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
+*inzicht API* needs a *trusted* GuldenD node to run. *inzicht API* will connect to the node
+through the RPC API, Gulden peer-to-peer protocol, and will even read its raw block .dat files for syncing.
 
-Configure guldencoind to listen to RPC calls and set `txindex` to true.
-The easiest way to do this is by copying `./etc/guldencoind/guldencoin.conf` to your
-guldencoin data directory (usually `~/.guldencoin` on Linux, `%appdata%\Guldencoin\` on Windows,
-or `~/Library/Application Support/Guldencoin` on Mac OS X).
+Configure GuldenD to listen to RPC calls and set `txindex` to true.
+The easiest way to do this is by copying `./etc/GuldenD/Gulden.conf` to your
+Gulden data directory (usually `~/.Gulden` on Linux, `%appdata%\Gulden\` on Windows,
+or `~/Library/Application Support/Gulden` on Mac OS X).
 
-guldencoind must be running and must have finished downloading the blockchain **before** running *inzicht API*.guldencoin
+GuldenD must be running and must have finished downloading the blockchain **before** running *inzicht API*.Gulden
 
 
 * **Node.js v0.10.x** - Download and Install [Node.js](http://www.nodejs.org/download/).
@@ -61,16 +61,16 @@ guldencoind must be running and must have finished downloading the blockchain **
 All configuration is specified in the [config](config/) folder, particularly the [config.js](config/config.js) file. There you can specify your application name and database name. Certain configuration values are pulled from environment variables if they are defined:
 
 ```
-BITCOIND_HOST         # RPC guldencoind host
-BITCOIND_PORT         # RPC guldencoind Port
-BITCOIND_P2P_HOST     # P2P guldencoind Host (will default to BITCOIND_HOST, if specified)
-BITCOIND_P2P_PORT     # P2P guldencoind Port
+BITCOIND_HOST         # RPC GuldenD host
+BITCOIND_PORT         # RPC GuldenD Port
+BITCOIND_P2P_HOST     # P2P GuldenD Host (will default to BITCOIND_HOST, if specified)
+BITCOIND_P2P_PORT     # P2P GuldenD Port
 BITCOIND_USER         # RPC username
 BITCOIND_PASS         # RPC password
-BITCOIND_DATADIR      # guldencoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
+BITCOIND_DATADIR      # GuldenD datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
 INSIGHT_PORT          # inzicht api port
-INSIGHT_DB            # Path where to store inzicht's internal DB. (defaults to $HOME/.guldencoin-insight)
+INSIGHT_DB            # Path where to store inzicht's internal DB. (defaults to $HOME/.Gulden-insight)
 INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information   
 INSIGHT_IGNORE_CACHE  # True to ignore cache of spents in transaction, with more than INSIGHT_SAFE_CONFIRMATIONS confirmations. This is useful for tracking double spents for old transactions.
 ENABLE_MAILBOX # if "true" will enable mailbox plugin
@@ -83,33 +83,33 @@ ENABLE_HTTPS # if "true" it will server using SSL/HTTPS
 
 ```
 
-Make sure that guldencoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
+Make sure that GuldenD is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
 
 In case the network is changed (testnet to livenet or vice versa) levelDB database needs to be deleted. This can be performed running:
 ```util/sync.js -D``` and waiting for *inzicht* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
 
 ## Synchronization
 
-The initial synchronization process scans the blockchain from the paired guldencoind server to update addresses and balances. *inzicht-api* needs exactly one trusted guldencoind node to run. This node must have finished downloading the blockchain before running *inzicht-api*.
+The initial synchronization process scans the blockchain from the paired GuldenD server to update addresses and balances. *inzicht-api* needs exactly one trusted GuldenD node to run. This node must have finished downloading the blockchain before running *inzicht-api*.
 
 While *inzicht* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
 
-The blockchain can be read from guldencoind's raw `.dat` files or RPC interface. 
+The blockchain can be read from GuldenD's raw `.dat` files or RPC interface. 
 Reading the information from the `.dat` files is much faster so it's the
 recommended (and default) alternative. `.dat` files are scanned in the default
-location for each platform (for example, `~/.guldencoin` on Linux). In case a
+location for each platform (for example, `~/.Gulden` on Linux). In case a
 non-standard location is used, it needs to be defined (see the Configuration section).
 As of June 2014, using `.dat` files the sync process takes 9 hrs.
 for livenet and 30 mins. for testnet.
 
 While synchronizing the blockchain, *inzicht-api* listens for new blocks and
-transactions relayed by the guldencoind node. Those are also stored on *inzicht-api*'s database.
+transactions relayed by the GuldenD node. Those are also stored on *inzicht-api*'s database.
 In case *inzicht-api* is shutdown for a period of time, restarting it will trigger
 a partial (historic) synchronization of the blockchain. Depending on the size of
 that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
 
-If guldencoind is shutdown, *inzicht-api* needs to be stopped and restarted
-once guldencoind is restarted.
+If GuldenD is shutdown, *inzicht-api* needs to be stopped and restarted
+once GuldenD is restarted.
 
 ### Syncing old blockchain data manually
 
@@ -129,7 +129,7 @@ once guldencoind is restarted.
 To store the blockchain and address related information, *inzicht-api* uses LevelDB.
 Two DBs are created: txs and blocks. By default these are stored on
 
-  ``~/.guldencoin-insight/``
+  ``~/.Gulden-insight/``
 
 Please note that some older versions of inzicht-API store that on `<inzicht's root>/db`.
 
@@ -288,7 +288,7 @@ POST response:
   /api/peer
 ```
 
-### Status of the guldencoin network
+### Status of the Gulden network
 ```
   /api/status?q=xxx
 ```
@@ -327,7 +327,7 @@ Sample output:
 }
 ```
 
-'<guldencoinAddress>': new transaction concerning <guldencoinAddress> received from network. This event is published in the '<guldencoinAddress>' room.
+'<GuldenAddress>': new transaction concerning <GuldenAddress> received from network. This event is published in the '<GuldenAddress>' room.
 
 'status': every 1% increment on the sync task, this event will be triggered. This event is published in the 'sync' room.
 
